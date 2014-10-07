@@ -1,8 +1,8 @@
 
 # Melanie access on PC 
-#setwd("C:/Users/Melanie/Github/ohi-global")
-setwd(file.path('~/github/ohi-global'))
-#  setwd('~/ohi-global')
+#setwd("C:/Users/Melanie/Github/ohi-fiji")
+setwd(file.path('~/github/ohi-fiji'))
+#  setwd('~/ohi-fiji')
 
 ## check to see if following also works on Mac:
 source('../ohiprep/src/R/common.R')
@@ -29,11 +29,11 @@ do.merge      = F # needs to be written
   
   if (do.layercheck){
     # load conf
-    conf   = Conf(sprintf('%s/conf', scenario))
+    conf   = Conf('fiji2013/conf')
     
     # run checks on layers
-    CheckLayers(layers.csv = sprintf('%s/layers.csv', scenario), 
-                layers.dir = sprintf('%s/layers', scenario), 
+    CheckLayers(layers.csv = 'fiji2013/layers.csv', 
+                layers.dir = 'fiji2013/layers', 
                 flds_id    = conf$config$layers_id_fields)
     # system(sprintf('open %s/layers.csv', scenario))
   }
@@ -41,7 +41,7 @@ do.merge      = F # needs to be written
   if (do.calculate){
     
     # calculate scores from directory of scenario
-    setwd(sprintf('%s', scenario)) # load_all(dirs$ohicore)
+    setwd('fiji2013') # load_all(dirs$ohicore)
     
     # load configuration and layers
     conf   = Conf('conf')
