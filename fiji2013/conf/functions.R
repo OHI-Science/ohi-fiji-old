@@ -124,7 +124,7 @@ Setup = function(){
   #  ***********************************************
   b_summary <- ddply(b, .(fao_id, year), summarize,
                      Medianb_bmsy=quantile(as.numeric(bmsy), probs=c(0.5)), 
-                     Minb_bmsy=min(as.numeric(bmsy)))
+                     Minb_bmsy=quantile(as.numeric(bmsy), probs=c(0.25)))
   
   UnAssessedCatches <- join(UnAssessedCatches, b_summary, by=c("fao_id", "year"),
                             type="left", match="all")
@@ -153,9 +153,13 @@ Setup = function(){
   #  penalty for not identifying fisheries catch data to
   #  species level.
   #  ***********************************************
-  penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
-                             penalty=c(0.01, 0.25, 0.5, 0.8, 0.9, 1))
-  # 2d.Merge with data
+#2013EEZ penalty table is modified:
+# penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
+#                              penalty=c(0.01, 0.25, 0.5, 0.8, 0.9, 1))
+penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
+                           penalty=c(0.01, 0.1, 0.25, 1, 1, 1))  
+
+# 2d.Merge with data
   UnAssessedCatches <- join(UnAssessedCatches, penaltyTable, by="TaxonPenaltyCode")
   
   # ------------------------------------------------------------------------
@@ -190,7 +194,7 @@ Setup = function(){
   UnAssessedCatchesT6$score <- score(UnAssessedCatchesT6, "Medianb_bmsy")
   
   UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
-  UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
+  UnAssessedCatches$score <- score(UnAssessedCatches, "Minb_bmsy")
   
   AllScores <- rbind(AssessedCatches[,c("TaxonName", "TaxonKey", "year", "fao_id", "saup_id", "catch","score")],
                   UnAssessedCatchesT6[,c("TaxonName", "TaxonKey", "year", "fao_id", "saup_id", "catch","score")],
