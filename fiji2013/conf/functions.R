@@ -643,7 +643,7 @@ AO = function(layers, status_year){
   # %.% semi_join(status, by='rgn_id')
   
   # assemble dimensions
-  scores = rbind(status, trend) %.% mutate(goal='FIS')
+  scores = rbind(status, trend) %.% mutate(goal='AO')
   return(scores)  
 }
 

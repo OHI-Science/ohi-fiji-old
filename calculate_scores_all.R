@@ -21,36 +21,23 @@ library(ohicore) # or
 #devtools::load_all(dirs$ohicore)
 library(stringr)
 
-do.layercheck = T
-do.calculate  = T
-do.other      = F
-do.merge      = F # needs to be written 
-
 # scenarios
   
-  if (do.layercheck){
-    # load conf
-    conf   = Conf('fiji2013/conf')
+    conf   = Conf(sprintf('%s/conf', scenario))
     
     # run checks on layers
-    CheckLayers(layers.csv = 'fiji2013/layers.csv', 
-                layers.dir = 'fiji2013/layers', 
+    CheckLayers(layers.csv = sprintf('%s/layers.csv', scenario), 
+                layers.dir = sprintf('%s/layers', scenario), 
                 flds_id    = conf$config$layers_id_fields)
-    # system(sprintf('open %s/layers.csv', scenario))
-  }
   
-  if (do.calculate){
-    
-    # calculate scores from directory of scenario
-    
-    # load configuration and layers
+  
     conf   = Conf(sprintf('%s/conf', scenario))
     layers = Layers(sprintf('%s/layers.csv', scenario), sprintf('%s/layers', scenario))
     
     # calculate scores
     #try({    })
     scores = CalculateAll(conf, layers, debug=T)
-    write.csv(scores, 'scores.csv', na='', row.names=F)
+     write.csv(scores, sprintf('%s/scores.csv', scenario), na='', row.names=F)
     
   
     # restore working directory
