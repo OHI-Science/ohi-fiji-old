@@ -2,11 +2,14 @@
 ## Substituting some of the layers with
 ##  Fiji-specific data
 ##########################################
-library(dplyr)
+source('../ohiprep/src/R/common.R')
+
 library(tidyr)
 
+
+
 ### Table for OHI2013 Fiji scores:
-OHI2013 <- read.csv("fiji2013/scores_2013EEZ.csv") %>%
+OHI2013 <- read.csv("../fiji2013/scores_2013EEZ.csv") %>%
   filter(region_id==18) %>%
   spread(dimension, score) %>%
   select(goal, score, future, status, trend, pressures, resilience)
@@ -34,4 +37,37 @@ b_bmsy_c_na <- cmsy.ohi.orig.no0.df %>%
 # save new data to layers:
 write.csv(b_bmsy_c_na, "fiji2013/layers/fis_b_bmsy.csv", na="", row.names=FALSE)
 
+
+######################################################
+## AO ----
+#####################################################
+
+# calculated using same technique as FIS, but using a subset of 
+# taxa that are artisanally fished.  
+
+# copy relevant file to layers
+location <- file.path(dir_neptune_data, 'model/FJ_v2013/Scripts and Data/data/AOTaxa.csv')
+file.copy(location, 'fiji2013/layers/ao_taxa.csv', overwrite=TRUE)
+
+# remove unnecessary layers 
+lyrs <- read.csv('fiji2013/layers_2013EEZ.csv')
+lyrs <- lyrs %>%
+  filter(targets != "AO") %>%
+  select(targets, layer, layer_old, name, description, fld_value, units, filename)
+
+# add new layer
+ao_taxa <- data.frame(
+  targets = "AO",
+  layer = "ao_taxa",
+  layer_old = "ao_taxa",
+  name = "list of artisanally fished species",
+  description = "list created by Kristin to ID artisanally fished taxa",
+  fld_value = "species",
+  units = 'species name',
+  filename = 'ao_taxa.csv')
+
+lyrs <- rbind(lyrs, ao_taxa)
+
+# write back updated layers.csv
+write.csv(lyrs, 'fiji2013/layers.csv', na='', row.names=F)
 

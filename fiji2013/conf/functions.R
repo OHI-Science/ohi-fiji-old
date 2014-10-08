@@ -154,10 +154,12 @@ Setup = function(){
   #  species level.
   #  ***********************************************
 #2013EEZ penalty table is modified:
- penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
-                              penalty=c(0.01, 0.25, 0.5, 0.8, 0.9, 1))
-# penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
-#                            penalty=c(0.01, 0.1, 0.25, 1, 1, 1))  
+#  penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
+#                               penalty=c(0.01, 0.25, 0.5, 0.8, 0.9, 1))
+penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
+                           penalty=c(0.01, 0.1, 0.25, 1, 1, 1))  
+
+
 
 # 2d.Merge with data
   UnAssessedCatches <- join(UnAssessedCatches, penaltyTable, by="TaxonPenaltyCode")
@@ -193,11 +195,11 @@ Setup = function(){
   UnAssessedCatchesT6 <- subset(UnAssessedCatches, penalty==1)
   UnAssessedCatchesT6$score <- score(UnAssessedCatchesT6, "Medianb_bmsy")
   
-#   UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
-#   UnAssessedCatches$score <- score(UnAssessedCatches, "Minb_bmsy")
+  UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
+  UnAssessedCatches$score <- score(UnAssessedCatches, "Minb_bmsy")
 
-UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
-UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
+# UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
+# UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
 
 
   AllScores <- rbind(AssessedCatches[,c("TaxonName", "TaxonKey", "year", "fao_id", "saup_id", "catch","score")],
@@ -414,57 +416,238 @@ FP = function(layers, scores){
 }
 
 
-AO = function(layers, 
-              year_max,
-              year_min=max(min(layers_data$year, na.rm=T), year_max - 10), 
-              Sustainability=1.0){
+AO = function(layers, status_year){
+  # layers used: fis_meancatch, fis_b_bmsy, fis_proparea_saup2rgn
   
-  # cast data
-  layers_data = SelectLayersData(layers, targets='AO')
+  # artisanal fish species to subset catch data
+  artSp = SelectLayersData(layers, layers='ao_taxa', narrow=TRUE) %>%
+    select(
+      ArtSpecies = val_chr)
   
-  ry = rename(dcast(layers_data, id_num + year ~ layer, value.var='val_num', 
-                    subset = .(layer %in% c('ao_need'))),
-              c('id_num'='region_id', 'ao_need'='need')); head(ry); summary(ry)
+  # catch data
+  c = SelectLayersData(layers, layers='fis_meancatch', narrow=T) %>%
+    select(
+      fao_saup_id    = id_chr,
+      taxon_name_key = category,
+      year,
+      catch          = val_num)  
   
-  r = na.omit(rename(dcast(layers_data, id_num ~ layer, value.var='val_num', 
-                           subset = .(layer %in% c('ao_access'))),
-                     c('id_num'='region_id', 'ao_access'='access'))); head(r); summary(r)
+  # separate out the region ids:
+  c$fao_id    <- as.numeric(sapply(strsplit(as.character(c$fao_saup_id), "_"), function(x)x[1]))
+  c$saup_id   <- as.numeric(sapply(strsplit(as.character(c$fao_saup_id), "_"), function(x)x[2]))
+  c$TaxonName <- sapply(strsplit(as.character(c$taxon_name_key), "_"), function(x)x[1])
+  c$TaxonKey  <- as.numeric(sapply(strsplit(as.character(c$taxon_name_key), "_"), function(x)x[2]))
+  c$catch     <- as.numeric(c$catch)
+  c$year      <- as.numeric(as.character(c$year))
+  #Create Identifier for linking assessed stocks with country-level catches
+  c$stock_id <- paste(as.character(c$TaxonName),
+                      as.character(c$fao_id), sep="_")
+
+  c <- c %>%
+    filter(TaxonName %in% artSp$ArtSpecies)
+
+#   setdiff(c$TaxonName, artSp$ArtSpecies)
+#   setdiff(artSp$ArtSpecies, c$TaxonName)
+  #grep("Misc", c$TaxonName, value=TRUE, ignore.case=TRUE) #checking
   
-  ry = merge(ry, r); head(r); summary(r); dim(r)
+  # b_bmsy data
+  b = SelectLayersData(layers, layer='fis_b_bmsy', narrow=T) %>%
+    select(
+      fao_id         = id_num,
+      TaxonName      = category,
+      year,
+      bmsy           = val_num)
+  # Identifier taxa/fao region:
+  b$stock_id <- paste(b$TaxonName, b$fao_id, sep="_")
+  b$bmsy     <- as.numeric(b$bmsy)
+  b$fao_id   <- as.numeric(as.character(b$fao_id))
+  b$year     <- as.numeric(as.character(b$year))
   
-  # model
-  ry = within(ry,{
-    Du = (1.0 - need) * (1.0 - access)
-    status = ((1.0 - Du) * Sustainability) * 100
-  })
   
-  # status
-  r.status = subset(ry, year==year_max, c(region_id, status)); summary(r.status); dim(r.status)
+  # area data for saup to rgn conversion
+  a = layers$data[['fis_proparea_saup2rgn']] %>%
+    select(saup_id, rgn_id, prop_area)
+  a$prop_area <- as.numeric(a$prop_area)
+  a$saup_id   <- as.numeric(as.character(a$saup_id))
+  a$rgn_id    <- as.numeric(as.character(a$rgn_id))
   
-  # trend
-  r.trend = ddply(subset(ry, year >= year_min), .(region_id), function(x)
-    {
-      if (length(na.omit(x$status))>1) {
-        # use only last valid 5 years worth of status data since year_min
-        d = data.frame(status=x$status, year=x$year)[tail(which(!is.na(x$status)), 5),]
-        trend = coef(lm(status ~ year, d))[['year']] / 100
-      } else {
-        trend = NA
-      }
-      return(data.frame(trend=trend))
-    })
+  # ------------------------------------------------------------------------
+  # STEP 1. Merge the species status data with catch data
+  #     AssessedCAtches: only taxa with catch status data
+  # -----------------------------------------------------------------------
+  AssessedCatches <- join(b, c, 
+                          by=c("stock_id", "year"), type="inner")
   
-  # return scores
-  scores = r.status %.%
-    select(region_id, score=status) %.%
-    mutate(dimension='status') %.%
-    rbind(
-      r.trend %.%
-        select(region_id, score=trend) %.%
-        mutate(dimension='trend')) %.%
-    mutate(goal='AO') # dlply(scores, .(dimension), summary)
+  # b,c by stock_id
+  
+  # include only taxa with species-level data
+  AssessedCatches <- AssessedCatches[as.numeric(AssessedCatches$TaxonKey)>=600000, ]
+  AssessedCatches$penalty <- 1
+  
+  # ------------------------------------------------------------------------
+  # STEP 2. Estimate status data for catch taxa without species status
+  #     UnAssessedCatches: taxa with catch status data
+  # -----------------------------------------------------------------------  
+  UnAssessedCatches <- c[!(c$year %in% AssessedCatches$year &
+                             c$stock_id %in% AssessedCatches$stock_id), ]
+  
+  # 2a.  Join UnAssessedCatches data to the b_bmsy summaries for each FAO/Year
+  
+  # Average status data for assessed stocks by FAO region for each year. 
+  # This is used as the starting estimate for unassesed stocks
+  # Here, the Median b_bmsy was chosen for TaxonKey >= 600000 
+  # and Min b_bmsy for TaxonKey < 600000
+  #  *************NOTE *****************************
+  #  Using the minimum B/BMSY score as an starting point
+  #  for the estimate of B/BMSY for unassessed taxa not
+  #  identified to species level is very conservative.
+  #  This is a parameter that can be changed.
+  #  ***********************************************
+  b_summary <- ddply(b, .(fao_id, year), summarize,
+                     Medianb_bmsy=quantile(as.numeric(bmsy), probs=c(0.5)), 
+                     Minb_bmsy=quantile(as.numeric(bmsy), probs=c(0.25)))
+  
+  UnAssessedCatches <- join(UnAssessedCatches, b_summary, by=c("fao_id", "year"),
+                            type="left", match="all")
+  
+  #  UnAssessedCatches <- UnAssessedCatches[!(is.na(UnAssessedCatches$Medianb_bmsy)), ] #added 8/21/2014 due to changes in b/bmsy data created NAs here
+  
+  #   ## Troubleshooting:
+  #   head(UnAssessedCatches[is.na(UnAssessedCatches$Medianb_bmsy), ])
+  #   tmp <- UnAssessedCatches[is.na(UnAssessedCatches$Medianb_bmsy), ]
+  #   unique(tmp$fao_id)
+  #   saups <- unique(tmp$saup_id)
+  #   unique(tmp$stock_id)
+  #   a[a$saup_id %in% saups,]
+  #   
+  #   ggplot(tmp, aes(x=year, y=catch, group=saup_id, color=saup_id)) +
+  #     geom_point() +
+  #     geom_line() +
+  #     facet_wrap( ~ stock_id, ncol=9, scale="free")
+  #   
+  # 2b.  Create a penalty variable based on taxa level:
+  UnAssessedCatches$TaxonPenaltyCode <- substring(UnAssessedCatches$TaxonKey,1,1)
+  
+  # 2c. Create a penalty table for taxa not identified to species level
+  #  *************NOTE *****************************
+  #  In some cases, it may make sense to alter the 
+  #  penalty for not identifying fisheries catch data to
+  #  species level.
+  #  ***********************************************
+  #2013EEZ penalty table is modified:
+  #  penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
+  #                               penalty=c(0.01, 0.25, 0.5, 0.8, 0.9, 1))
+  penaltyTable <- data.frame(TaxonPenaltyCode=1:6, 
+                             penalty=c(0.01, 0.1, 0.25, 1, 1, 1))  
+  
+  
+  
+  # 2d.Merge with data
+  UnAssessedCatches <- join(UnAssessedCatches, penaltyTable, by="TaxonPenaltyCode")
+  
+  # ------------------------------------------------------------------------
+  # STEP 3. Calculate score for all taxa based on status (b/bmsy) and taxa
+  # -----------------------------------------------------------------------
+  
+  #  *************NOTE *****************************
+  #  These values can be altered
+  #  ***********************************************
+  alpha <- 0.5
+  beta <- 0.25
+  lowerBuffer <- 0.95
+  upperBuffer <- 1.05
+  
+  ## Function to calculate score for different scenarios:
+  score <- function(data, variable){
+    #data <- AssessedCatches
+    #variable <- "bmsy"
+    ifelse(data[ ,variable]*data[, "penalty"]<lowerBuffer,
+           data[ ,variable]*data[, "penalty"],
+           ifelse(data[ ,variable]*data[, "penalty"]>upperBuffer,
+                  ifelse(1-alpha*(data[ ,variable]*data[, "penalty"]
+                                  -upperBuffer)>beta,
+                         1-alpha*(data[ ,variable]*data[, "penalty"]-upperBuffer),beta),
+                  1))
+  }
+  
+  AssessedCatches$score <- score(data=AssessedCatches, variable="bmsy")
+  
+  # Median is used to calculate score for species with Taxon 6 coding
+  UnAssessedCatchesT6 <- subset(UnAssessedCatches, penalty==1)
+  UnAssessedCatchesT6$score <- score(UnAssessedCatchesT6, "Medianb_bmsy")
+  
+  UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
+  UnAssessedCatches$score <- score(UnAssessedCatches, "Minb_bmsy")
+  
+  # UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
+  # UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
+  
+  
+  AllScores <- rbind(AssessedCatches[,c("TaxonName", "TaxonKey", "year", "fao_id", "saup_id", "catch","score")],
+                     UnAssessedCatchesT6[,c("TaxonName", "TaxonKey", "year", "fao_id", "saup_id", "catch","score")],
+                     UnAssessedCatches[,c("TaxonName", "TaxonKey", "year", "fao_id", "saup_id", "catch","score")])
+  
+  # ------------------------------------------------------------------------
+  # STEP 4. Calculate status for each saup_id region
+  # -----------------------------------------------------------------------
+  
+  # 4a. To calculate the weight (i.e, the relative catch of each stock per saup_id),
+  # the mean catch of taxon i is divided by the   
+  # sum of mean catch of all species in region r, which is calculated as: 
+  
+  smc <- ddply(.data = AllScores, .(year, saup_id), summarize, 
+               SumCatch = sum(catch))   
+  AllScores<-join(AllScores,smc,by=c("year","saup_id"))  
+  AllScores$wprop<-AllScores$catch/AllScores$SumCatch 
+  
+  
+  #  4b. The "score" and "weight" values per taxon per SAUP region are used to  
+  #    calculate a geometric weighted mean across taxa for each saup_id region
+  geomMean <- ddply(.data = AllScores, .(saup_id, year), summarize, status_saup = prod(score^wprop)) 
+  
+  # ------------------------------------------------------------------------
+  # STEP 5. Convert status from saup spatial scale to OHI spatial scale  
+  # -----------------------------------------------------------------------
+  # In many cases the ohi reporting regions are comprised of multiple saup regions.
+  # To correct for this, the proportion of each saup area of the total area of the 
+  # OHI region was calculated. This was used to calculate Status from the Status_saup.
+  # This type of adjustment is omitted if the data were collected at the same spatial 
+  # scale as the collecting region.
+  
+  # Join region names/ids to Geom data
+  geomMean <- join(a, geomMean, type="inner", by="saup_id") # merge km2 of shelf area with status results
+  
+  # weighted mean scores
+  #StatusData <- ddply(.data = geomMean, .(rgn_id, year), summarize, Status = round(sum(status_saup*prop_area)*100))
+  StatusData <- ddply(.data = geomMean, .(rgn_id, year), summarize, Status = sum(status_saup*prop_area))
+  
+  # 2013 status is based on 2011 data (most recent data)
+  status = StatusData %.%
+    filter(year==status_year) %.%
+    mutate(
+      score     = round(Status*100),
+      dimension = 'status') %.%
+    select(region_id=rgn_id, dimension, score)
+  
+  # ------------------------------------------------------------------------
+  # STEP 6. Calculate trend  
+  # -----------------------------------------------------------------------
+  # NOTE: Status is rounded to 2 digits before trend is 
+  # calculated in order to match OHI 2013 results (is this what we want to do?)
+  trend = ddply(StatusData, .(rgn_id), function(x){
+    mdl = lm(Status ~ year, data=x)
+    data.frame(
+      score     = round(coef(mdl)[['year']] * 5, 2),
+      dimension = 'trend')}) %.%
+    select(region_id=rgn_id, dimension, score)
+  # %.% semi_join(status, by='rgn_id')
+  
+  # assemble dimensions
+  scores = rbind(status, trend) %.% mutate(goal='FIS')
   return(scores)  
 }
+
+
 
 NP = function(scores, layers, year_max, debug=T){
   # TODO: add smoothing a la PLoS 2013 manuscript

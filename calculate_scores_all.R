@@ -1,7 +1,7 @@
 
 # Melanie access on PC 
 #setwd("C:/Users/Melanie/Github/ohi-fiji")
-setwd(file.path('~/github/ohi-fiji'))
+#setwd(file.path('~/github/ohi-fiji'))
 #  setwd('~/ohi-fiji')
 
 ## check to see if following also works on Mac:
@@ -14,6 +14,7 @@ dirs = list(
   ohiprep       = '../ohiprep',
   ohicore       = '../ohicore')
 
+scenario <- 'fiji2013'
 
 # load ohicore (must first download using directions from here: )
 library(ohicore) # or 
@@ -41,17 +42,17 @@ do.merge      = F # needs to be written
   if (do.calculate){
     
     # calculate scores from directory of scenario
-    setwd('fiji2013') # load_all(dirs$ohicore)
     
     # load configuration and layers
-    conf   = Conf('conf')
-    layers = Layers('layers.csv','layers')
+    conf   = Conf(sprintf('%s/conf', scenario))
+    layers = Layers(sprintf('%s/layers.csv', scenario), sprintf('%s/layers', scenario))
     
     # calculate scores
     #try({    })
     scores = CalculateAll(conf, layers, debug=T)
     write.csv(scores, 'scores.csv', na='', row.names=F)
     
+  
     # restore working directory
     setwd('..') 
     
