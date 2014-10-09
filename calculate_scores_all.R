@@ -35,7 +35,6 @@ library(stringr)
     layers = Layers(sprintf('%s/layers.csv', scenario), sprintf('%s/layers', scenario))
     
     # calculate scores
-    #try({    })
     scores = CalculateAll(conf, layers, debug=T)
      write.csv(scores, sprintf('%s/scores.csv', scenario), na='', row.names=F)
     

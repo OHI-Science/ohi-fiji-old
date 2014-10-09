@@ -9,14 +9,16 @@ library(tidyr)
 
 
 ### Table for OHI2013 Fiji scores:
-OHI2013 <- read.csv("../fiji2013/scores_2013EEZ.csv") %>%
+OHI2013 <- read.csv("fiji2013/scores_2013EEZ.csv") %>%
   filter(region_id==18) %>%
   spread(dimension, score) %>%
   select(goal, score, future, status, trend, pressures, resilience)
 
 
-
+##################################################
 # FIS ----
+##################################################
+
 # 1. Changes to function: different penalty table and uses 25th quantile
 #    rather than median for estimating b/bmsy for taxa that were not modeled.
 # 2. Use constrained prior b/bmsy data
@@ -71,3 +73,21 @@ lyrs <- rbind(lyrs, ao_taxa)
 # write back updated layers.csv
 write.csv(lyrs, 'fiji2013/layers.csv', na='', row.names=F)
 
+######################################################
+## CP and HAB ----
+#####################################################
+
+# coral data were updated for Fiji, but the functions remain the same
+# New analysis only changed trend. Extent stayed the same: 3011.84 
+# health stayed the same: 1
+# trend changed from: 0.05464683 to: 0.007253
+
+## take a look at formatting for the old version:
+old_trend <- read.csv("fiji2013/layers/hab_trend.csv")
+old_trend %>%
+  filter(rgn_id==18,
+         habitat=="coral")
+old_trend$trend[old_trend$rgn_id==18 & old_trend$habitat=="coral"] <- 0.007253
+
+# save new data to layers:
+write.csv(old_trend, "fiji2013/layers/hab_trend.csv", na="", row.names=FALSE)

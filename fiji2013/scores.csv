@@ -7325,7 +7325,7 @@
 "CP","trend",15,-0.18
 "CP","trend",16,0.16
 "CP","trend",17,0
-"CP","trend",18,-0.12
+"CP","trend",18,-0.15
 "CP","trend",19,0.06
 "CP","trend",20,
 "CP","trend",21,0.03
@@ -7529,7 +7529,7 @@
 "CP","trend",248,0.03
 "CP","trend",249,0.03
 "CP","trend",250,0.03
-"CP","future",0,69.95
+"CP","future",0,69.94
 "CP","future",1,58.32
 "CP","future",2,27.53
 "CP","future",3,
@@ -7547,7 +7547,7 @@
 "CP","future",15,51.07
 "CP","future",16,66.08
 "CP","future",17,50.35
-"CP","future",18,74.55
+"CP","future",18,72.85
 "CP","future",19,100
 "CP","future",20,
 "CP","future",21,88.75
@@ -7751,7 +7751,7 @@
 "CP","future",248,100
 "CP","future",249,98.91
 "CP","future",250,87.12
-"CP","score",0,69.39
+"CP","score",0,69.38
 "CP","score",1,53.14
 "CP","score",2,24.97
 "CP","score",3,
@@ -7769,7 +7769,7 @@
 "CP","score",15,53.78
 "CP","score",16,58
 "CP","score",17,51.46
-"CP","score",18,77.12
+"CP","score",18,76.26
 "CP","score",19,100
 "CP","score",20,
 "CP","score",21,94.37
@@ -16628,7 +16628,7 @@
 "HAB","trend",15,-0.48
 "HAB","trend",16,0.29
 "HAB","trend",17,-0.04
-"HAB","trend",18,-0.48
+"HAB","trend",18,-0.49
 "HAB","trend",19,0.03
 "HAB","trend",20,0.02
 "HAB","trend",21,0.03
@@ -16832,7 +16832,7 @@
 "HAB","trend",248,0.02
 "HAB","trend",249,0.02
 "HAB","trend",250,-0.29
-"HAB","future",0,88.47
+"HAB","future",0,88.46
 "HAB","future",1,100
 "HAB","future",2,100
 "HAB","future",3,100
@@ -16850,7 +16850,7 @@
 "HAB","future",15,64
 "HAB","future",16,100
 "HAB","future",17,85.79
-"HAB","future",18,66.86
+"HAB","future",18,66.14
 "HAB","future",19,100
 "HAB","future",20,100
 "HAB","future",21,100
@@ -17072,7 +17072,7 @@
 "HAB","score",15,75.15
 "HAB","score",16,94.48
 "HAB","score",17,85.05
-"HAB","score",18,78.85
+"HAB","score",18,78.49
 "HAB","score",19,100
 "HAB","score",20,96.07
 "HAB","score",21,99.62
@@ -23273,7 +23273,7 @@
 "BD","trend",15,-0.39
 "BD","trend",16,0.02
 "BD","trend",17,-0.17
-"BD","trend",18,-0.37
+"BD","trend",18,-0.38
 "BD","trend",19,-0.11
 "BD","trend",20,-0.11
 "BD","trend",21,-0.1
@@ -23477,7 +23477,7 @@
 "BD","trend",248,-0.08
 "BD","trend",249,-0.08
 "BD","trend",250,-0.24
-"BD","future",0,85.15
+"BD","future",0,85.14
 "BD","future",1,93.45
 "BD","future",2,92.74
 "BD","future",3,94.78
@@ -23495,7 +23495,7 @@
 "BD","future",15,67.47
 "BD","future",16,94.67
 "BD","future",17,77.85
-"BD","future",18,69.31
+"BD","future",18,68.94
 "BD","future",19,86.64
 "BD","future",20,87.99
 "BD","future",21,83.19
@@ -23717,7 +23717,7 @@
 "BD","score",15,76.9
 "BD","score",16,90.56
 "BD","score",17,81.75
-"BD","score",18,78.06
+"BD","score",18,77.88
 "BD","score",19,89.21
 "BD","score",20,87.22
 "BD","score",21,87.54
@@ -23939,7 +23939,7 @@
 "Index","future",15,55.44
 "Index","future",16,79.56
 "Index","future",17,62.26
-"Index","future",18,68.43
+"Index","future",18,68.22
 "Index","future",19,76.42
 "Index","future",20,59.86
 "Index","future",21,42.85
@@ -24161,7 +24161,7 @@
 "Index","score",15,59.24
 "Index","score",16,73.92
 "Index","score",17,63.08
-"Index","score",18,72.9
+"Index","score",18,72.79
 "Index","score",19,77
 "Index","score",20,57.33
 "Index","score",21,45.28
