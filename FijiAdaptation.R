@@ -132,3 +132,48 @@ sust_species$species[sust_species$rgn_id==18 & sust_species$species=="Giant tige
 sust_species$sust_coeff[sust_species$rgn_id==18 & sust_species$species=="Shrimp"] <- 0.320588
 sust_species$sust_coeff[sust_species$rgn_id==18 & sust_species$species=="Prawn"] <- 0.354365
 write.csv(sust_species, "fiji2013/layers/mar_sustainability_score.csv", row.names=FALSE)
+
+
+##################################################
+# ICO ----
+##################################################
+
+#updated iconics list for Fiji
+
+
+##### Status data ###############
+
+status <- read.csv("fiji2013/layers/ico_spp_extinction_status_ohi.csv") 
+
+#cut Fiji in OHI data
+status <- status %>%
+  filter(rgn_id != 18)
+
+# format new Fiji data and add
+new_data <- read.csv(file.path(dir_neptune_data, 'model/FJ_v2013/Scripts and Data/data/Fiji_Iconics.csv'), na.strings="")
+status_new <- new_data %>%
+  mutate(rgn_id = 18) %>%
+  select(rgn_id, sciname=Scientific, category=IUCN.Category) %>%
+  filter(!is.na(category))
+
+status <- rbind(status, status_new)
+
+write.csv(status, "fiji2013/layers/ico_spp_extinction_status.csv", row.names=FALSE)
+
+##### Trend data ###############
+
+trend <- read.csv("fiji2013/layers/ico_spp_popn_trend_ohi.csv") 
+
+#cut Fiji in OHI data
+trend <- trend %>%
+  filter(rgn_id != 18)
+
+# format new Fiji data and add
+trend_new <- new_data %>%
+  mutate(rgn_id = 18) %>%
+  select(rgn_id, sciname=Scientific, popn_trend=Trend) %>%
+  filter(!is.na(popn_trend))
+
+trend <- rbind(trend, trend_new)
+
+write.csv(trend, "fiji2013/layers/ico_spp_popn_trend.csv", row.names=FALSE)

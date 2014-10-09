@@ -1,33 +1,33 @@
 "rgn_id","sciname","popn_trend"
-122," Carcharhinus perezi",""
-133," Carcharhinus perezi",""
-119," Carcharhinus perezi",""
-129," Carcharhinus perezi",""
-120," Carcharhinus perezi",""
-171," Carcharhinus perezi",""
-130," Carcharhinus perezi",""
-110," Carcharhinus perezi",""
-166," Carcharhinus perezi",""
-163," Carcharhinus perezi",""
-131," Carcharhinus perezi",""
-108," Carcharhinus perezi",""
-124," Carcharhinus perezi",""
-127," Carcharhinus perezi",""
-112," Carcharhinus perezi",""
-126," Carcharhinus perezi",""
-164," Carcharhinus perezi",""
-123," Carcharhinus perezi",""
-135," Carcharhinus perezi",""
-139," Carcharhinus perezi",""
-132," Carcharhinus perezi",""
-115," Carcharhinus perezi",""
-136," Carcharhinus perezi",""
-167," Carcharhinus perezi",""
-125," Carcharhinus perezi",""
-168," Carcharhinus perezi",""
-114," Carcharhinus perezi",""
-169," Carcharhinus perezi",""
-183," Monachus monachus ",""
+122," Carcharhinus perezi",
+133," Carcharhinus perezi",
+119," Carcharhinus perezi",
+129," Carcharhinus perezi",
+120," Carcharhinus perezi",
+171," Carcharhinus perezi",
+130," Carcharhinus perezi",
+110," Carcharhinus perezi",
+166," Carcharhinus perezi",
+163," Carcharhinus perezi",
+131," Carcharhinus perezi",
+108," Carcharhinus perezi",
+124," Carcharhinus perezi",
+127," Carcharhinus perezi",
+112," Carcharhinus perezi",
+126," Carcharhinus perezi",
+164," Carcharhinus perezi",
+123," Carcharhinus perezi",
+135," Carcharhinus perezi",
+139," Carcharhinus perezi",
+132," Carcharhinus perezi",
+115," Carcharhinus perezi",
+136," Carcharhinus perezi",
+167," Carcharhinus perezi",
+125," Carcharhinus perezi",
+168," Carcharhinus perezi",
+114," Carcharhinus perezi",
+169," Carcharhinus perezi",
+183," Monachus monachus ",
 173,"Alopias vulpinus","Decreasing"
 106,"Alopias vulpinus","Decreasing"
 71,"Alopias vulpinus","Decreasing"
@@ -191,7 +191,7 @@
 171,"Balaenoptera acutorostrata","Stable"
 66,"Balaenoptera acutorostrata","Stable"
 14,"Balaenoptera acutorostrata","Stable"
-16,"Balaenoptera bonaerensis ",""
+16,"Balaenoptera bonaerensis ",
 43,"Balaenoptera borealis","Unknown"
 115,"Balaenoptera borealis","Unknown"
 172,"Balaenoptera borealis","Unknown"
@@ -374,6 +374,7 @@
 76,"Balaenoptera physalus","Unknown"
 108,"Balaenoptera physalus","Unknown"
 224,"Balaenoptera physalus","Unknown"
+18,"Balaenoptera physalus","Unknown"
 42,"Balaenoptera physalus","Unknown"
 20,"Balaenoptera physalus","Unknown"
 5,"Balaenoptera physalus","Unknown"
@@ -403,7 +404,7 @@
 173,"Balaenoptera physalus","Unknown"
 89,"Balaenoptera physalus","Unknown"
 218,"Balaenoptera physalus","Unknown"
-16,"Berardius arnuxii ",""
+16,"Berardius arnuxii ",
 16,"Caperea marginata","Unknown"
 163,"Carcharhinus amblyrhynchos","Unknown"
 216,"Carcharhinus amblyrhynchos","Unknown"
@@ -476,62 +477,62 @@
 162,"Carcharodon carcharias","Unknown"
 186,"Carcharodon carcharias","Unknown"
 42,"Carcharodon carcharias","Unknown"
-133,"Caretta caretta",""
-114,"Caretta caretta",""
-52,"Caretta caretta",""
-132,"Caretta caretta",""
-101,"Caretta caretta",""
-41,"Caretta caretta",""
-45,"Caretta caretta",""
-125,"Caretta caretta",""
-136,"Caretta caretta",""
-116,"Caretta caretta",""
-173,"Caretta caretta",""
-130,"Caretta caretta",""
-204,"Caretta caretta",""
-67,"Caretta caretta",""
-135,"Caretta caretta",""
-131,"Caretta caretta",""
-122,"Caretta caretta",""
-15,"Caretta caretta",""
-113,"Caretta caretta",""
-163,"Caretta caretta",""
-129,"Caretta caretta",""
-209,"Caretta caretta",""
-84,"Caretta caretta",""
-117,"Caretta caretta",""
-102,"Caretta caretta",""
-111,"Caretta caretta",""
-115,"Caretta caretta",""
-5,"Caretta caretta",""
-76,"Caretta caretta",""
-81,"Caretta caretta",""
-182,"Caretta caretta",""
-82,"Caretta caretta",""
-16,"Caretta caretta",""
-184,"Caretta caretta",""
-140,"Caretta caretta",""
-66,"Caretta caretta",""
-79,"Caretta caretta",""
-48,"Caretta caretta",""
-166,"Caretta caretta",""
-210,"Caretta caretta",""
-110,"Caretta caretta",""
-61,"Caretta caretta",""
-179,"Caretta caretta",""
-112,"Caretta caretta",""
-171,"Caretta caretta",""
-42,"Caretta caretta",""
-62,"Caretta caretta",""
-214,"Caretta caretta",""
-121,"Caretta caretta",""
-40,"Caretta caretta",""
-80,"Caretta caretta",""
-139,"Caretta caretta",""
-164,"Caretta caretta",""
-216,"Caretta caretta",""
+133,"Caretta caretta",
+114,"Caretta caretta",
+52,"Caretta caretta",
+132,"Caretta caretta",
+101,"Caretta caretta",
+41,"Caretta caretta",
+45,"Caretta caretta",
+125,"Caretta caretta",
+136,"Caretta caretta",
+116,"Caretta caretta",
+173,"Caretta caretta",
+130,"Caretta caretta",
+204,"Caretta caretta",
+67,"Caretta caretta",
+135,"Caretta caretta",
+131,"Caretta caretta",
+122,"Caretta caretta",
+15,"Caretta caretta",
+113,"Caretta caretta",
+163,"Caretta caretta",
+129,"Caretta caretta",
+209,"Caretta caretta",
+84,"Caretta caretta",
+117,"Caretta caretta",
+102,"Caretta caretta",
+111,"Caretta caretta",
+115,"Caretta caretta",
+5,"Caretta caretta",
+76,"Caretta caretta",
+81,"Caretta caretta",
+182,"Caretta caretta",
+82,"Caretta caretta",
+16,"Caretta caretta",
+184,"Caretta caretta",
+140,"Caretta caretta",
+66,"Caretta caretta",
+79,"Caretta caretta",
+48,"Caretta caretta",
+166,"Caretta caretta",
+210,"Caretta caretta",
+110,"Caretta caretta",
+61,"Caretta caretta",
+179,"Caretta caretta",
+112,"Caretta caretta",
+171,"Caretta caretta",
+42,"Caretta caretta",
+62,"Caretta caretta",
+214,"Caretta caretta",
+121,"Caretta caretta",
+40,"Caretta caretta",
+80,"Caretta caretta",
+139,"Caretta caretta",
+164,"Caretta caretta",
+216,"Caretta caretta",
 162,"Cephalorhynchus hectori","Decreasing"
-162,"Cephalorhynchus hectori maui",""
+162,"Cephalorhynchus hectori maui",
 80,"Cetorhinus maximus","Decreasing"
 187,"Cetorhinus maximus","Decreasing"
 60,"Cetorhinus maximus","Decreasing"
@@ -624,6 +625,7 @@
 17,"Cheilinus undulatus","Decreasing"
 146,"Cheilinus undulatus","Decreasing"
 41,"Cheilinus undulatus","Decreasing"
+18,"Cheilinus undulatus","Decreasing"
 5,"Cheilinus undulatus","Decreasing"
 31,"Cheilinus undulatus","Decreasing"
 255,"Cheilinus undulatus","Decreasing"
@@ -677,6 +679,7 @@
 48,"Chelonia mydas","Decreasing"
 162,"Chelonia mydas","Decreasing"
 108,"Chelonia mydas","Decreasing"
+18,"Chelonia mydas","Decreasing"
 116,"Chelonia mydas","Decreasing"
 204,"Chelonia mydas","Decreasing"
 42,"Chelonia mydas","Decreasing"
@@ -777,6 +780,7 @@
 184,"Dermochelys coriacea","Decreasing"
 17,"Dermochelys coriacea","Decreasing"
 126,"Dermochelys coriacea","Decreasing"
+18,"Dermochelys coriacea","Decreasing"
 140,"Dermochelys coriacea","Decreasing"
 167,"Dermochelys coriacea","Decreasing"
 79,"Dermochelys coriacea","Decreasing"
@@ -873,6 +877,7 @@
 151,"Eretmochelys imbricata","Decreasing"
 130,"Eretmochelys imbricata","Decreasing"
 93,"Eretmochelys imbricata","Decreasing"
+18,"Eretmochelys imbricata","Decreasing"
 29,"Eretmochelys imbricata","Decreasing"
 137,"Eretmochelys imbricata","Decreasing"
 214,"Eretmochelys imbricata","Decreasing"
@@ -894,7 +899,7 @@
 135,"Eschrichtius robustus","Stable"
 73,"Eschrichtius robustus","Stable"
 209,"Eschrichtius robustus","Stable"
-16,"Eubalaena australis ",""
+16,"Eubalaena australis ",
 145,"Eubalaena glacialis","Unknown"
 181,"Eubalaena glacialis","Unknown"
 55,"Eubalaena glacialis","Unknown"
@@ -979,6 +984,7 @@
 173,"Galeocerdo cuvier","Unknown"
 168,"Galeocerdo cuvier","Unknown"
 100,"Galeocerdo cuvier","Unknown"
+18,"Galeocerdo cuvier","Unknown"
 198,"Galeocerdo cuvier","Unknown"
 121,"Galeocerdo cuvier","Unknown"
 151,"Galeocerdo cuvier","Unknown"
@@ -1053,6 +1059,7 @@
 110,"Isurus oxyrinchus","Decreasing"
 180,"Isurus oxyrinchus","Decreasing"
 106,"Isurus oxyrinchus","Decreasing"
+18,"Isurus oxyrinchus","Decreasing"
 42,"Isurus oxyrinchus","Decreasing"
 162,"Isurus oxyrinchus","Decreasing"
 203,"Isurus oxyrinchus","Decreasing"
@@ -1178,7 +1185,7 @@
 97,"Isurus paucus","Decreasing"
 163,"Isurus paucus","Decreasing"
 16,"Kogia breviceps","Unknown"
-16,"Kogia simus",""
+16,"Kogia simus",
 16,"Lagenodelphis hosei","Unknown"
 16,"Lagenorhynchus cruciger","Unknown"
 16,"Lagenorhynchus obscurus","Unknown"
@@ -1204,8 +1211,8 @@
 194,"Lamna nasus","Decreasing"
 163,"Lamna nasus","Decreasing"
 173,"Lamna nasus","Decreasing"
-163,"Lepidochelys kempii",""
-135,"Lepidochelys kempii",""
+163,"Lepidochelys kempii",
+135,"Lepidochelys kempii",
 163,"Lepidochelys olivacea","Decreasing"
 25,"Lepidochelys olivacea","Decreasing"
 191,"Lepidochelys olivacea","Decreasing"
@@ -1384,6 +1391,7 @@
 32,"Megaptera novaeangliae","Increasing"
 173,"Megaptera novaeangliae","Increasing"
 191,"Megaptera novaeangliae","Increasing"
+18,"Megaptera novaeangliae","Increasing"
 180,"Megaptera novaeangliae","Increasing"
 198,"Megaptera novaeangliae","Increasing"
 183,"Megaptera novaeangliae","Increasing"
@@ -1425,11 +1433,11 @@
 16,"Mesoplodon bowdoini","Unknown"
 16,"Mesoplodon densirostris","Unknown"
 16,"Mesoplodon ginkgodens","Unknown"
-16,"Mesoplodon grayi ",""
+16,"Mesoplodon grayi ",
 16,"Mesoplodon hectori","Unknown"
 16,"Mesoplodon layardii","Unknown"
 16,"Mesoplodon mirus","Unknown"
-16,"Natator depressus",""
+16,"Natator depressus",
 204,"Orcaella brevirostris","Decreasing"
 206,"Orcaella brevirostris","Decreasing"
 207,"Orcaella brevirostris","Decreasing"
@@ -1471,6 +1479,7 @@
 42,"Prionace glauca","Unknown"
 156,"Prionace glauca","Unknown"
 147,"Prionace glauca","Unknown"
+18,"Prionace glauca","Unknown"
 101,"Prionace glauca","Unknown"
 61,"Prionace glauca","Unknown"
 191,"Prionace glauca","Unknown"
@@ -1591,7 +1600,7 @@
 67,"Prionace glauca","Unknown"
 76,"Prionace glauca","Unknown"
 250,"Prionace glauca","Unknown"
-16,"Pseudorca crassidens ",""
+16,"Pseudorca crassidens ",
 66,"Rhincodon typus","Decreasing"
 100,"Rhincodon typus","Decreasing"
 119,"Rhincodon typus","Decreasing"
@@ -1627,6 +1636,7 @@
 133,"Rhincodon typus","Decreasing"
 112,"Rhincodon typus","Decreasing"
 6,"Rhincodon typus","Decreasing"
+18,"Rhincodon typus","Decreasing"
 117,"Rhincodon typus","Decreasing"
 102,"Rhincodon typus","Decreasing"
 210,"Rhincodon typus","Decreasing"
@@ -1720,7 +1730,7 @@
 16,"Stenella longirostris","Unknown"
 16,"Steno bredanensis","Unknown"
 53,"Steno bredanensis","Unknown"
-16,"Tasmacetus shepherdi ",""
+16,"Tasmacetus shepherdi ",
 43,"Triaenodon obesus","Unknown"
 202,"Triaenodon obesus","Unknown"
 16,"Triaenodon obesus","Unknown"
@@ -1758,6 +1768,7 @@
 154,"Triaenodon obesus","Unknown"
 15,"Triaenodon obesus","Unknown"
 47,"Triaenodon obesus","Unknown"
+18,"Triaenodon obesus","Unknown"
 44,"Triaenodon obesus","Unknown"
 207,"Triaenodon obesus","Unknown"
 146,"Triaenodon obesus","Unknown"
@@ -1779,31 +1790,3 @@
 218,"Ursus maritimus","Decreasing"
 145,"Ursus maritimus","Decreasing"
 16,"Ziphius cavirostris","Unknown"
-18,"Cheilinus undulatus","Decreasing"
-18,"Bolbometopon muricatum","Decreasing"
-18,"Plectropomus areolatus","Decreasing"
-18,"Plectropomus leopardus","Decreasing"
-18,"Epinephelus lanceolatus","Decreasing"
-18,"Epinephelus fuscoguttatus","Unknown"
-18,"Epinephelus polyphekadion","Decreasing"
-18,"Caretta caretta","Increasing"
-18,"Dermochelys coriacea","Stable"
-18,"Chelonia mydas","Decreasing"
-18,"Eretmochelys imbricata","Decreasing"
-18,"Lepidochelys olivacea","Decreasing"
-18,"Triaenodon obesus","Unknown"
-18,"Carcharhinus albimarginatus","Unknown"
-18,"Carcharhinus melanopterus","Decreasing"
-18,"Carcharhinus amblyrhynchos","Unknown"
-18,"Carcharhinus leucas","Unknown"
-18,"Galeocerdo cuvier","Unknown"
-18,"Sphyrna lewini","Unknown"
-18,"Sphyrna mokarran","Decreasing"
-18,"Carcharhinus longimanus","Decreasing"
-18,"Physeter macrocephalus","Unknown"
-18,"Megaptera novaeangliae","Increasing"
-18,"Globicephala macrorhynchus","Unknown"
-18,"Tridacna derasa","Decreasing"
-18,"Tridacna maxima","Decreasing"
-18,"Tridacna squamosa","Decreasing"
-18,"Palola viridis","Unknown"

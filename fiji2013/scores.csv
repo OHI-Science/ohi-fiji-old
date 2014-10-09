@@ -4626,7 +4626,7 @@
 "NP","status",207,65.06
 "NP","status",208,21.78
 "NP","status",209,71.15
-"NP","status",210,39.21
+"NP","status",210,39.19
 "NP","status",212,72.31
 "NP","status",213,
 "NP","status",214,46.8
@@ -4858,7 +4858,7 @@
 "NP","trend",220,-1
 "NP","trend",221,
 "NP","trend",222,0.01
-"NP","trend",223,0.26
+"NP","trend",223,0.57
 "NP","trend",224,-0.03
 "NP","trend",227,
 "NP","trend",228,
@@ -5069,7 +5069,7 @@
 "NP","future",207,83.62
 "NP","future",208,23.33
 "NP","future",209,85.85
-"NP","future",210,45.81
+"NP","future",210,45.78
 "NP","future",212,100
 "NP","future",213,
 "NP","future",214,55.71
@@ -5291,7 +5291,7 @@
 "NP","score",207,74.34
 "NP","score",208,22.55
 "NP","score",209,78.5
-"NP","score",210,42.51
+"NP","score",210,42.48
 "NP","score",212,86.16
 "NP","score",213,
 "NP","score",214,51.25
@@ -12402,7 +12402,7 @@
 "ICO","resilience",248,74.01
 "ICO","resilience",249,70.49
 "ICO","resilience",250,74.12
-"ICO","status",0,60.85
+"ICO","status",0,60.95
 "ICO","status",1,60
 "ICO","status",2,53.33
 "ICO","status",3,80
@@ -12420,7 +12420,7 @@
 "ICO","status",15,57.33
 "ICO","status",16,73.16
 "ICO","status",17,60
-"ICO","status",18,56.36
+"ICO","status",18,66.15
 "ICO","status",19,64
 "ICO","status",20,71.43
 "ICO","status",21,71.43
@@ -12845,7 +12845,7 @@
 "ICO","trend",248,-0.29
 "ICO","trend",249,-0.29
 "ICO","trend",250,-0.29
-"ICO","future",0,59.57
+"ICO","future",0,59.65
 "ICO","future",1,72.97
 "ICO","future",2,47.14
 "ICO","future",3,98.61
@@ -12863,7 +12863,7 @@
 "ICO","future",15,48.99
 "ICO","future",16,73.14
 "ICO","future",17,49.2
-"ICO","future",18,46.45
+"ICO","future",18,54.34
 "ICO","future",19,54.58
 "ICO","future",20,75
 "ICO","future",21,64.64
@@ -13067,7 +13067,7 @@
 "ICO","future",248,57.99
 "ICO","future",249,57.12
 "ICO","future",250,61.54
-"ICO","score",0,60.21
+"ICO","score",0,60.3
 "ICO","score",1,66.49
 "ICO","score",2,50.24
 "ICO","score",3,89.31
@@ -13085,7 +13085,7 @@
 "ICO","score",15,53.16
 "ICO","score",16,73.15
 "ICO","score",17,54.6
-"ICO","score",18,51.41
+"ICO","score",18,60.25
 "ICO","score",19,59.29
 "ICO","score",20,73.21
 "ICO","score",21,68.04
@@ -21705,7 +21705,7 @@
 "SP","resilience",248,
 "SP","resilience",249,
 "SP","resilience",250,
-"SP","status",0,58.8
+"SP","status",0,58.84
 "SP","status",1,30
 "SP","status",2,56.35
 "SP","status",3,62.61
@@ -21723,7 +21723,7 @@
 "SP","status",15,47.89
 "SP","status",16,86.58
 "SP","status",17,35.99
-"SP","status",18,76.26
+"SP","status",18,81.15
 "SP","status",19,40.11
 "SP","status",20,59.33
 "SP","status",21,35.92
@@ -22148,7 +22148,7 @@
 "SP","trend",248,-0.14
 "SP","trend",249,-0.14
 "SP","trend",250,-0.14
-"SP","future",0,61.1
+"SP","future",0,61.14
 "SP","future",1,36.49
 "SP","future",2,60.1
 "SP","future",3,77.19
@@ -22166,7 +22166,7 @@
 "SP","future",15,44.77
 "SP","future",16,86.57
 "SP","future",17,30.52
-"SP","future",18,71.15
+"SP","future",18,75.1
 "SP","future",19,35.73
 "SP","future",20,68.51
 "SP","future",21,32.52
@@ -22370,7 +22370,7 @@
 "SP","future",248,72.82
 "SP","future",249,28.56
 "SP","future",250,30.77
-"SP","score",0,59.95
+"SP","score",0,59.99
 "SP","score",1,33.24
 "SP","score",2,58.23
 "SP","score",3,69.9
@@ -22388,7 +22388,7 @@
 "SP","score",15,46.33
 "SP","score",16,86.58
 "SP","score",17,33.26
-"SP","score",18,73.7
+"SP","score",18,78.13
 "SP","score",19,37.92
 "SP","score",20,63.92
 "SP","score",21,34.22
@@ -23921,7 +23921,7 @@
 "BD","score",248,94.77
 "BD","score",249,94.69
 "BD","score",250,91.39
-"Index","future",0,63.49
+"Index","future",0,63.5
 "Index","future",1,68.49
 "Index","future",2,66.62
 "Index","future",3,73.45
@@ -23939,7 +23939,7 @@
 "Index","future",15,55.44
 "Index","future",16,79.56
 "Index","future",17,62.26
-"Index","future",18,68.22
+"Index","future",18,68.62
 "Index","future",19,76.42
 "Index","future",20,59.86
 "Index","future",21,42.85
@@ -24161,7 +24161,7 @@
 "Index","score",15,59.24
 "Index","score",16,73.92
 "Index","score",17,63.08
-"Index","score",18,72.79
+"Index","score",18,73.24
 "Index","score",19,77
 "Index","score",20,57.33
 "Index","score",21,45.28
