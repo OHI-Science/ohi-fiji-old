@@ -21,7 +21,6 @@ library(ohicore) # or
 #devtools::load_all(dirs$ohicore)
 library(stringr)
 
-# scenarios
   
     conf   = Conf(sprintf('%s/conf', scenario))
     

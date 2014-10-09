@@ -91,3 +91,44 @@ old_trend$trend[old_trend$rgn_id==18 & old_trend$habitat=="coral"] <- 0.007253
 
 # save new data to layers:
 write.csv(old_trend, "fiji2013/layers/hab_trend.csv", na="", row.names=FALSE)
+
+
+##################################################
+# MAR ----
+##################################################
+
+# used Yashika data
+# Global includes 'Blue shrimp' and 'Giant tiger prawn' - however, Yashika data identifies 'shrimp' and 'prawn'
+# To obtain the sustainability socres for these taxa we averaged the 2013 OHI global sustainability scores
+# of shrimp (2 species) and prawn (5 species) species.
+
+## take a look at formatting for the old version:
+harvest_tonnes <- read.csv("fiji2013/layers/mar_harvest_tonnes_ohi.csv") 
+harvest_tonnes_fiji <- harvest_tonnes %>%
+  filter(rgn_id == 18)
+species <- unique(harvest_tonnes_fiji$species_code)
+harvest_tonnes[harvest_tonnes$species_code %in% species, ] #species codes are specific to Fiji
+# cut shrimp/prawn data for Fiji to replace with new data
+harvest_tonnes  <-  harvest_tonnes %>%
+  filter(!(species_code %in% c(803, 804)))
+# get Yashika data and bind
+Yashika_harvest <- read.csv(file.path(dir_neptune_data, 'model/FJ_v2013/Scripts and Data/data/MAR_harvest_tonnes.csv'))
+harvest_tonnes <- rbind(harvest_tonnes, Yashika_harvest)
+write.csv(harvest_tonnes, "fiji2013/layers/mar_harvest_tonnes.csv", row.names=FALSE)
+
+# change harvest species names to more general names:
+harvest_species <- read.csv("fiji2013/layers/mar_harvest_species_ohi.csv", stringsAsFactors=FALSE) 
+harvest_species[harvest_species$species_code %in% species, ]
+harvest_species$species[harvest_species$species_code == 803]  <- "Shrimp"
+harvest_species$species[harvest_species$species_code == 804]  <- "Prawn"
+write.csv(harvest_species, "fiji2013/layers/mar_harvest_species.csv", row.names=FALSE)
+
+# revise sustainability scores:
+sust_species <- read.csv("fiji2013/layers/mar_sustainability_score_ohi.csv", stringsAsFactors=FALSE) 
+sust_species %>%
+  filter(rgn_id==18)
+sust_species$species[sust_species$rgn_id==18 & sust_species$species=="Blue shrimp"] <- "Shrimp"
+sust_species$species[sust_species$rgn_id==18 & sust_species$species=="Giant tiger prawn"] <- "Prawn"
+sust_species$sust_coeff[sust_species$rgn_id==18 & sust_species$species=="Shrimp"] <- 0.320588
+sust_species$sust_coeff[sust_species$rgn_id==18 & sust_species$species=="Prawn"] <- 0.354365
+write.csv(sust_species, "fiji2013/layers/mar_sustainability_score.csv", row.names=FALSE)
