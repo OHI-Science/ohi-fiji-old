@@ -22,7 +22,8 @@ library(ohicore) # or
 library(stringr)
 
   
-    conf   = Conf(sprintf('%s/conf', scenario))
+
+conf   = Conf(sprintf('%s/conf', scenario))
     
     # run checks on layers
     CheckLayers(layers.csv = sprintf('%s/layers.csv', scenario), 

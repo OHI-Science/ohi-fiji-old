@@ -14,7 +14,6 @@ OHI2013 <- read.csv("fiji2013/scores_2013EEZ.csv") %>%
   spread(dimension, score) %>%
   select(goal, score, future, status, trend, pressures, resilience)
 
-
 ##################################################
 # FIS ----
 ##################################################
@@ -140,7 +139,6 @@ write.csv(sust_species, "fiji2013/layers/mar_sustainability_score.csv", row.name
 
 #updated iconics list for Fiji
 
-
 ##### Status data ###############
 
 status <- read.csv("fiji2013/layers/ico_spp_extinction_status_ohi.csv") 
@@ -177,3 +175,48 @@ trend_new <- new_data %>%
 trend <- rbind(trend, trend_new)
 
 write.csv(trend, "fiji2013/layers/ico_spp_popn_trend.csv", row.names=FALSE)
+
+
+##################################################
+# LSP ----
+##################################################
+
+# Different approach than OHI2013.  Use the qoliqoli regions as the cmpa region (rather than 3nm).
+# Weight different 'cmpa's on the basis of their management effectiveness.
+# CP data is the same as OHI 2013
+# Check on weighting of CP and CMPA
+
+### generate effective management areas for Fiji
+LSP_data <- read.csv(file.path(dir_neptune_data, 'model/FJ_v2013/Scripts and Data/data/LSPFiji.csv'), na.strings="")
+
+## The following was the original method for estimating weights, but it was 
+## resulting in inflated scores.  See email from Stacy Jupiter...
+## New weights are provided below...
+# weights <- read.csv("Scripts and Data\\data\\LSPScores.csv")
+
+cmpa <- LSP_data[LSP_data$type %in% c("cmpa_Qoliqoli", "cmpa_Tabu"), ]
+
+#------------------------------------------------------------------
+## Assign weights to cmpa data
+#------------------------------------------------------------------
+weightSummary <- data.frame(management=c("NoTabu",  "WithTabu", "Tabu_permanent", "Tabu_controlled_harvest", "Tabu_uncontrolled_haverst", "Tabu_other_management"),
+                            weight = c(0, 0.15, 1, 0.5, 0.1, 0.1))
+
+cmpa <- merge(cmpa, weightSummary, by="management", all.x=TRUE)
+cmpa$WeightedArea <- cmpa$Area_km2 * cmpa$weight
+
+sum(cmpa$Area_km2)  # This is the total area that replaces the 3 nm in the OHI analysis, 30050.5 km2
+
+cmpa_effective_area <- cmpa %>%
+  group_by(year) %>%
+  summarize(area_km2=sum(WeightedArea)) %>%
+  mutate(rgn_id=18) %>%
+  select(rgn_id, year, area_km2)
+
+# replace Fiji data in OHI 2013 data:
+cmpa_ohi <- read.csv("fiji2013/layers/lsp_prot_area_offshore3nm_ohi.csv") 
+cmpa_ohi  <- cmpa_ohi %>%
+  filter(rgn_id!=18)
+
+cmpa <- rbind(cmpa_ohi, cmpa_effective_area)
+write.csv(cmpa, "fiji2013/layers/lsp_prot_area_offshore3nm.csv", row.names=FALSE)

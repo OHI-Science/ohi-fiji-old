@@ -1704,9 +1704,11 @@ ICO = function(layers){
 }
 
 LSP = function(layers, ref_pct_cmpa=30, ref_pct_cp=30, status_year, trend_years){
-  # 2013: LSP(layers, status_year=2013, trend_years=2006:2010)
-  # 2012: LSP(layers, status_year=2009, trend_years=2002:2006)
-    
+#   status_year=2012
+#   trend_years=2007:2012
+# LSP for Fiji weights the protected areas by their management effectiveness
+# (see FijiAdaptation.R > LSP for description of how data were derived.)
+  
   lyrs = list('r'  = c('rgn_area_inland1km'   = 'area_inland1km',
                        'rgn_area_offshore3nm' = 'area_offshore3nm'),
               'ry' = c('lsp_prot_area_offshore3nm' = 'cmpa',
@@ -1719,7 +1721,9 @@ LSP = function(layers, ref_pct_cmpa=30, ref_pct_cp=30, status_year, trend_years)
               c('id_num'='region_id', lyrs[['r']]))
   ry = rename(dcast(d, id_num + year ~ layer, value.var='val_num', subset = .(layer %in% names(lyrs[['ry']]))),
               c('id_num'='region_id', lyrs[['ry']]))
-    
+  
+  ## replace area in Fiji with qoliqoli area that is our frame of reference (rather than 3 nm)
+    r$area_offshore3nm[r$region_id==18]  <- 30050.5
   # fill in time series from first year specific region_id up to max year for all regions and generate cumulative sum
   yr.max = max(max(ry$year), status_year)
   r.yrs = ddply(ry, .(region_id), function(x){
@@ -1741,8 +1745,9 @@ LSP = function(layers, ref_pct_cmpa=30, ref_pct_cp=30, status_year, trend_years)
   r.yrs = within(r.yrs,{
     pct_cp    = pmin(cp_cumsum   / area_inland1km   * 100, 100)
     pct_cmpa  = pmin(cmpa_cumsum / area_offshore3nm * 100, 100)
-    pct_pa    = pmin( (cp_cumsum + cmpa_cumsum) / (area_inland1km + area_offshore3nm) * 100, 100)
-    status    = ( pmin(pct_cp / ref_pct_cp, 1) + pmin(pct_cmpa / ref_pct_cmpa, 1) ) / 2 * 100
+    status    = pmin( ((cp_cumsum + cmpa_cumsum) / (area_inland1km + area_offshore3nm))/(ref_pct_cmpa/100)*100, 100)
+    pct_pa    = pmin( ((cp_cumsum + cmpa_cumsum) / (area_inland1km + area_offshore3nm))*100, 100)
+#    status    = ( pmin(pct_cp / ref_pct_cp, 1) + pmin(pct_cmpa / ref_pct_cmpa, 1) ) / 2 * 100
   })
   
   # extract status based on specified year
@@ -1751,9 +1756,18 @@ LSP = function(layers, ref_pct_cmpa=30, ref_pct_cp=30, status_year, trend_years)
   # calculate trend
   r.trend = ddply(subset(r.yrs, year %in% trend_years), .(region_id), function(x){
     data.frame(
-      trend = min(1, max(0, 5 * coef(lm(pct_pa ~ year, data=x))[['year']])))})      
-  
-  # return scores
+      trend = min(1, max(0, 5 * coef(lm(status/100 ~ year, data=x))[['year']])))})  
+# #Test for:
+# r.yrs[r.yrs$region_id==173,]
+# tmp <- data.frame(x=c(2007, 2008, 2009, 2010, 2011, 2012), 
+#                   y=c(0.05309017, 0.05309017, 0.07720365, 0.09240122, 0.09240122, 0.09240122))
+# tmp <- data.frame(x=c(2007, 2008, 2009, 2010, 2011, 2012), 
+#                   y=c(17.6967241, 17.6967241, 25.7345491, 30.8004053, 30.8004053, 30.8004053))
+# 
+# summary(lm(I(y/100)~x, data=tmp)) #multiply by 5
+# 0.031399*5
+
+# return scores
   scores = rbind.fill(
     within(r.status, {
       goal      = 'LSP'
