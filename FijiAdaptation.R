@@ -14,7 +14,7 @@ OHI2013 <- read.csv("fiji2013/scores_2013EEZ.csv") %>%
   spread(dimension, score) %>%
   select(goal, score, future, status, trend, pressures, resilience)
 
-##################################################
+ ##################################################
 # FIS ----
 ##################################################
 
