@@ -1,4 +1,5 @@
 ### Manuscript tables and figures
+library(tidyr)
 
 source('../ohiprep/src/R/common.R')
 

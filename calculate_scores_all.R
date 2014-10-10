@@ -41,6 +41,6 @@ conf   = Conf(sprintf('%s/conf', scenario))
 #     # archive scores on disk (out of github, for easy retrieval later)
 #     csv = sprintf('%s/scores_%s.csv', 
 #                   scenario, format(Sys.Date(), '%Y-%m-%d'))
-# #         write.csv(scores, csv, na='', row.names=F)
-#     
+#          write.csv(scores, csv, na='', row.names=F)
+    
 
