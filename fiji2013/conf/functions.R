@@ -196,7 +196,7 @@ penaltyTable <- data.frame(TaxonPenaltyCode=1:6,
   UnAssessedCatchesT6$score <- score(UnAssessedCatchesT6, "Medianb_bmsy")
   
   UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
-  UnAssessedCatches$score <- score(UnAssessedCatches, "Minb_bmsy")
+  UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
 
 # UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
 # UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
@@ -232,7 +232,7 @@ penaltyTable <- data.frame(TaxonPenaltyCode=1:6,
   # OHI region was calculated. This was used to calculate Status from the Status_saup.
   # This type of adjustment is omitted if the data were collected at the same spatial 
   # scale as the collecting region.
-  
+   
   # Join region names/ids to Geom data
   geomMean <- join(a, geomMean, type="inner", by="saup_id") # merge km2 of shelf area with status results
   
@@ -577,7 +577,7 @@ AO = function(layers, status_year){
   UnAssessedCatchesT6$score <- score(UnAssessedCatchesT6, "Medianb_bmsy")
   
   UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
-  UnAssessedCatches$score <- score(UnAssessedCatches, "Minb_bmsy")
+  UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
   
   # UnAssessedCatches <- subset(UnAssessedCatches, penalty!=1)
   # UnAssessedCatches$score <- score(UnAssessedCatches, "Medianb_bmsy")
@@ -1745,8 +1745,13 @@ LSP = function(layers, ref_pct_cmpa=30, ref_pct_cp=30, status_year, trend_years)
   r.yrs = within(r.yrs,{
     pct_cp    = pmin(cp_cumsum   / area_inland1km   * 100, 100)
     pct_cmpa  = pmin(cmpa_cumsum / area_offshore3nm * 100, 100)
-    status    = pmin( ((cp_cumsum + cmpa_cumsum) / (area_inland1km + area_offshore3nm))/(ref_pct_cmpa/100)*100, 100)
-    pct_pa    = pmin( ((cp_cumsum + cmpa_cumsum) / (area_inland1km + area_offshore3nm))*100, 100)
+#     status    =  (pct_cp/ref_pct_cp*area_inland1km + 
+#                     + pct_cmpa/ref_pct_cmpa*area_offshore3nm) / 
+#       (area_inland1km + area_offshore3nm) * 100
+    status    =  (pmin(pct_cp/ref_pct_cp, 1)*area_inland1km + 
+                       + pmin(pct_cmpa/ref_pct_cmpa, 1)*area_offshore3nm) / 
+                    (area_inland1km + area_offshore3nm) * 100
+#    pct_pa    = pmin( ((cp_cumsum + cmpa_cumsum) / (area_inland1km + area_offshore3nm))*100, 100)
 #    status    = ( pmin(pct_cp / ref_pct_cp, 1) + pmin(pct_cmpa / ref_pct_cmpa, 1) ) / 2 * 100
   })
   

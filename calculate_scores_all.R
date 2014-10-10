@@ -34,7 +34,7 @@ conf   = Conf(sprintf('%s/conf', scenario))
     conf   = Conf(sprintf('%s/conf', scenario))
     layers = Layers(sprintf('%s/layers.csv', scenario), sprintf('%s/layers', scenario))
     
-    # calculate scores
+    # calculate scores 
     scores = CalculateAll(conf, layers, debug=T)
      write.csv(scores, sprintf('%s/scores.csv', scenario), na='', row.names=F)
     
@@ -43,3 +43,4 @@ conf   = Conf(sprintf('%s/conf', scenario))
 #                   scenario, format(Sys.Date(), '%Y-%m-%d'))
 # #         write.csv(scores, csv, na='', row.names=F)
 #     
+

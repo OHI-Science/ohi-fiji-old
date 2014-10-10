@@ -12,7 +12,11 @@ library(tidyr)
 OHI2013 <- read.csv("fiji2013/scores_2013EEZ.csv") %>%
   filter(region_id==18) %>%
   spread(dimension, score) %>%
-  select(goal, score, future, status, trend, pressures, resilience)
+  select(goal, score, status, future, trend, pressures, resilience) %>%
+  mutate(goal = factor(goal, levels=c('Index', 'NP', 'AO', 'FP', 'MAR', 'FIS', 'BD', 'SPP', 'HAB',
+                         'CW', 'SP', 'LSP', 'ICO', 'LE', 'ECO', 'LIV', 'TR', 'CP', 'CS'))) %>%
+  arrange(goal)
+write.csv(OHI2013, "figures and tables/OHI2013.csv", na="", row.names=FALSE)
 
  ##################################################
 # FIS ----
