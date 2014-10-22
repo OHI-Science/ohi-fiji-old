@@ -121,11 +121,18 @@ c$TaxonKey <- as.numeric(sapply(strsplit(as.character(c$taxon_name_key), "_"), f
 c$stock_id <- paste(as.character(c$TaxonName),
                     as.character(c$fao_id), sep="_")
 
+c <- c %>%
+  filter(saup_id==242) %>%
+  select(year, mean_catch, fao_id, TaxonName, stock_id, TaxonKey)
 
+c[grep("Decapterus russelli_71", c$TaxonName), ]         
+         
 # b_bmsy data
 # Identifier taxa/fao region:
-b$stock_id <- paste(b$TaxonName, b$fao_id, sep="_")
-
+b$stock_id <- paste(b$taxon_name, b$fao_id, sep="_")
+b <- b %>%
+  select(stock_id, year, b_bmsy)
+b[grep("Decapterus", b$stock_id), ]
 # ------------------------------------------------------------------------
 # STEP 1. Merge the species status data with catch data
 #     AssessedCAtches: only taxa with catch status data
@@ -133,44 +140,46 @@ b$stock_id <- paste(b$TaxonName, b$fao_id, sep="_")
 AssessedCatches <- join(b, c, 
                         by=c("stock_id", "year"), type="inner")
 
-# include only taxa with species-level data
-AssessedCatches <- AssessedCatches[as.numeric(AssessedCatches$TaxonKey)>=600000, ]
-AssessedCatches$penalty <- 1
-
-## ID overfished stock:
-
-
-Fiji_2011 <- AssessedCatches %.%
-  filter(saup_id %in% 242 & year %in% 2011) %.%
-  select(fao_id, TaxonName, year, b_bmsy) %.%
+Fiji_2011_assessed <- AssessedCatches %>%
+  filter(year %in% 2011) %>%
+  select(fao_id, TaxonName, year, b_bmsy) %>%
   arrange(b_bmsy)
 
-Fiji_2007_2011 <- AssessedCatches %.%
-  filter(saup_id %in% 242 & year %in% 2007:2011) %.%
-  select(fao_id, TaxonName, year, b_bmsy) %.%
+Fiji_2007_2011_assessed <- AssessedCatches %>%
+  filter(year %in% 2007:2011) %>%
+  select(fao_id, TaxonName, year, b_bmsy) %>%
   arrange(fao_id, TaxonName, year)
 
 
 lm = dlply(
-  Fiji_2007_2011, .(TaxonName, fao_id),
+  Fiji_2007_2011_assessed, .(TaxonName, fao_id),
   function(x) lm(b_bmsy ~ year, x))
 trend_lm <- ldply(lm, coef)
-trend_lm <- trend_lm %.%
+trend_lm <- trend_lm %>%
   select(TaxonName, fao_id, trend=year)
 
 p = dlply(
-  Fiji_2007_2011, .(TaxonName, fao_id),
+  Fiji_2007_2011_assessed, .(TaxonName, fao_id),
   function(x) summary(lm(b_bmsy ~ year, x)))
 p_lm  <- ldply(p, function(x) x$coeff[2,4])
-p_lm <- p_lm %.%
+p_lm <- p_lm %>%
   select(TaxonName, fao_id, Pvalue=V1)
 
-Fiji_data <- Fiji_2011%.%
-  mutate(year=as.numeric(year)) %.%
-  left_join(trend_lm) %.%
-  left_join(p_lm)
+common <- read.csv("figures and tables/FishCommonNames.csv") %>%
+  select(TaxonName=Genus.species, Common.name)
+common <- unique(common)
 
-#write.csv(Fiji_data, "b_bmsy_data_May232014.csv", row.names=FALSE)
+Fiji_data_bbmsy <- Fiji_2011_assessed%>%
+  mutate(year=as.numeric(year)) %>%
+  left_join(trend_lm) %>%
+  left_join(p_lm) %>%
+  mutate(Trend2 = ifelse(trend < 0 & Pvalue < 0.05, "negative",
+                       ifelse(trend > 0 & Pvalue < 0.05, "positive",
+                              "none"))) %>%
+  mutate(fao_id = ifelse(fao_id == 81, "Southwest Pacific", "Western Central Pacific")) %>%
+  left_join(common, by='TaxonName')
+
+#write.csv(Fiji_data_bbmsy, "figures and tables/b_bmsy_data.csv", row.names=FALSE)
 
 ## do a quick test of data
 test_Sj <- c(0.3347268, 0.3206750, 0.2858359, 0.2317777, 0.1819549)
@@ -178,37 +187,38 @@ year <- c(2007:2011)
 mod <- lm(test_Sj ~ year)
 summary(mod)
 
-## Liz modified table....but we want to add column that Identifies artisanal fish
-data <- read.csv("Table6_mrf.csv")
-ao_sp <- read.csv("Scripts and Data/data/AOTaxa.csv")
-setdiff(data$Genus.species, ao_sp$ArtisanalSpecies) # only a couple...just as easy to add by hand
-setdiff(ao_sp$ArtisanalSpecies, data$Genus.species)
 
 ## some summaries:
-table(data$Trend.1)
 library(RColorBrewer)
 library(colorspace)
+library(ggplot2)
+library(grid)
+source('https://www.nceas.ucsb.edu/~frazier/myTheme.txt')
 
-ggplot(data, aes(x=B.BMSY, fill=as.factor(Trend.1))) +
-  geom_dotplot(stackgroups=TRUE,method="histodot", binwidth=1/30) +
+ggplot(Fiji_data_bbmsy, aes(x=b_bmsy, fill=as.factor(Trend2))) +
+  geom_dotplot(stackgroups=TRUE,method="histodot", binwidth=1/30, shape=19) +
   ylim(0,10) +
   coord_fixed(ratio=1/30)+
   scale_fill_manual(name="Trend", 
-                    breaks=c("declining", "declining/stable", "rebuilding/stable", "rebuilding"),
-                    values=c("declining"=diverge_hcl(4)[4],
-                             "declining/stable"=diverge_hcl(4)[3],
-                             "rebuilding/stable"=diverge_hcl(4)[2],
-                             "rebuilding"=diverge_hcl(4)[1])) +
-  labs(x="b/bmsy") +
-  myTheme +
+                    breaks=c("negative", "none", "positive"),
+                    values=c("negative"=diverge_hcl(4)[4],
+                             "none"= "cornsilk2",
+                             "positive"=diverge_hcl(4)[1])) +
+  labs(x=expression(B/B[msy])) +
+  #myTheme +
+  theme_bw() +
   theme(legend.key = element_blank()) 
 
-#ggsave("bbmsy_Example.png")
+ggsave("figures and tables/bbmsy.png")
 
 # ------------------------------------------------------------------------
 # STEP 2. Estimate status data for catch taxa without species status
 #     UnAssessedCatches: taxa with catch status data
 # -----------------------------------------------------------------------
+
+c_2011 <- c %>%
+  filter(year==2011)  #63 stocks
+sum(c_2011$TaxonKey < 400000)
 
 UnAssessedCatches <- c[!(c$year %in% AssessedCatches$year &
                            c$stock_id %in% AssessedCatches$stock_id), ]
